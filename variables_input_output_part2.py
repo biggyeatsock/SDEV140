@@ -10,4 +10,4 @@ score = int(input("Enter your score out of 15: "))
 
 percent =  score/15
 
-print("Your final score was", percent,"%")
+print("Your final score was", percent*100,"%")
