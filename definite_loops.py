@@ -6,54 +6,45 @@
 #
 #############################
 
-
 # def get_input() -> int:
 #     ## Prompt the user for input and return it as the correct data type.
 #     height = int(input("Enter the number of rows:")) #height
 #     return height
 
-# def write_pyramid_row(row: int, height: int)  -> None:
+# def write_pyramid_row(row: int, lcount:int)  -> None:
+#     for j in range(0, rows-lcount):
+#         print(" ",end="") # A space that will not go to the next line.
+#         for j in range(0, lcount):
+#             if counter != lcount+1:
+#                 for number in range (1, lcount, 1):  #postive number climb
+#                     print(number, end="")
+#                 for val in range(lcount,0,-1): #Negative number climb.
+#                     print(val, end="")
+#             counter=counter+1
 
-#     for i in range (1, height+1):
-#         for j in range(0, height-i-1):
-#             print(" ",end="") # A space that will not go to the next line.
-#         for j in range(0, i):
-#             for number in range (1, i, 1):  #postive number climb
-#                 print(number, end="")
-#                 if number == i:
-#                     print()
-#                     break
-#                 break
-#             for val in range(i,0,-1): #Negative number climb.
-#                 print(val,end="")
-#         print()
-    
-#     return row, height
+#     print()
+#     return None
 
-# def create_pyramid(height: int) -> None:
+# def create_pyramid(rows: int) -> None:
 #     # Loop through write_pyramid_row to create the full pyramid
-#         row = 0
-#         write_pyramid_row(row,height)
-#         return None
+#     counter = 1
+#     lcount = 0
+#     for i in range (1, rows+1):
+#         write_pyramid_row(rows, lcount)
+#         lcount=lcount+1 
+#     return None
+    
 
 # if __name__ == "__main__":
-#     height = get_input()
-#     create_pyramid(height)
+#     rows = get_input()
+#     create_pyramid(rows)
 
-
-
-
-# rows = int(input("Enter number of rows: "))
-
-# for i in range(rows): # This is half a pyrmid, solid left, stairs on the right.
-#     for j in range(i+1):
-#         print(j+1, end=" ")
-#     print('\n')
+# print('End')
 
 #########################################################  THIS WORKS
 rows = int(input("Enter the number of rows:")) #height
 counter = 1
-for i in range (1, rows+1):
+for i in range (1, rows+1): # How many rows get built.
     for j in range(0, rows-i):
         print(" ",end="") # A space that will not go to the next line.
     for j in range(0, i):
@@ -65,7 +56,7 @@ for i in range (1, rows+1):
             counter=counter+1
          
     print()
-
+print('\nEnd')
     ######################################################### THIS WORKS
 
 
