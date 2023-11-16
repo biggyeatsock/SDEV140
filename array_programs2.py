@@ -14,7 +14,6 @@ def display_board(board_size: int, guessed_positions: list[int],
     # Display the board in format:
     #  . | O | O | . | X |
     #  1 | 2 | 3 | 4 | 5 |
-    counter = 0
     # Hint - you may use:
     # print(" X |", end="")
     # print(" O |", end="")
@@ -22,7 +21,7 @@ def display_board(board_size: int, guessed_positions: list[int],
     # print(f" {i} |", end="")
      # This just prints a blank board in format
     for x in range(board_size):
-        print(" . |", end='')
+        print(" . |", end='') 
         # if is_hit() == True:
         #     print(" X |", end='')
         # elif is_hit() == False:

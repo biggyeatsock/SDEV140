@@ -25,7 +25,6 @@ def calculate_sum(numbers: list[float]) -> float:
         sum = sum + float(numbers[i-1])
         i = i + 1
     return sum  
-    pass
 
 def get_user_input() -> str:
     # Prompt the user for a number or 'q'.
