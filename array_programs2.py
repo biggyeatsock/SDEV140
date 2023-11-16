@@ -14,32 +14,29 @@ def display_board(board_size: int, guessed_positions: list[int],
     # Display the board in format:
     #  . | O | O | . | X |
     #  1 | 2 | 3 | 4 | 5 |
-    
+    counter = 0
     # Hint - you may use:
     # print(" X |", end="")
     # print(" O |", end="")
     # print(" . |", end="")
     # print(f" {i} |", end="")
-    for counter in range(0, board_size, 1):
-        if counter == 0: # This just prints a blank board in format
-            for x in range(board_size):
-                print(" . |", end='')
-            print()
-            for i in range(board_size):
-                print(f" {i+1} |", end="")
-        
-        if counter != 0:
-            for x in range(0,board_size):
-                if guessed_positions[x] != ship_position:
-                    print(" 0 |", end="")
-                elif guessed_positions[x] == ship_position:
-                    print(" X |", end="")
-                else:
-                    print(" . |", end="")
-            print()
-            for i in range(board_size):
-                print(f" {i+1} |", end="")
+     # This just prints a blank board in format
+    for x in range(board_size):
+        print(" . |", end='')
+        # if is_hit() == True:
+        #     print(" X |", end='')
+        # elif is_hit() == False:
+        #     print(" O |", end='')
+    print()
+    for i in range(board_size):
+        print(f" {i+1} |", end="")
+
+
+
+
     pass
+
+
 
 def get_board_size() -> int:
     # Print an appropriate message and get the board size from the user. Prompt
@@ -54,10 +51,12 @@ def get_guess() -> int:
   
 def is_hit(guess: int, ship_position: int) -> bool:
     # Return whether the guess hit the target
+    sunk = False
     if guess == ship_position:
         sunk = True
         return sunk
-    pass
+    return sunk
+    
 
 def initialize_ship_position(board_size: int) -> int:
     # Get a random start point on the board. randint(start,end)
@@ -73,6 +72,7 @@ def print_hit_message(is_hit: bool) -> None:
 def take_turn(board_size: int, guessed_positions: list[int],
               ship_position: int) -> bool:
     # TODO: use existing functions to...
+   
     # Get a guess from the user.
     guess = get_guess()
     # Update guessed positions.
@@ -84,23 +84,24 @@ def take_turn(board_size: int, guessed_positions: list[int],
     if guess == ship_position:
         is_hit(guess, ship_position)
     # Print hit message.
-        print_hit_message(is_hit)
-    # Return whether the battleship was hit.
+        print_hit_message(is_hit)# Return whether the battleship was hit.
+        return True
+    
     else:
-        print("Miss!")
-    return
+        print("\nMiss!")
+    return False
 
 def main():
     print("Welcome to Battleship!")
     # TODO: Uncomment these one at a time and complete.
     board_size: int = get_board_size() # board size
     ship_position: int = initialize_ship_position(board_size) # ship location
-    guessed_positions: list[int] = [0] # guessed positions
+    guessed_positions: list[int] = [] # guessed positions
     display_board(board_size, guessed_positions, ship_position)
     print('\n',ship_position) # Just for debugging purposes, this will need to be removed before finally submitting!!!!!!!
     # TODO: Take turns until the battleship is sunk
-    
-    take_turn(board_size, guessed_positions, ship_position)
+    while take_turn(board_size, guessed_positions, ship_position) == False:
+        take_turn(board_size, guessed_positions, ship_position)
         
 
 if __name__ == "__main__":
