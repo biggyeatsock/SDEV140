@@ -21,20 +21,21 @@ def display_board(board_size: int, guessed_positions: list[int],
     # print(f" {i} |", end="")
      # This just prints a blank board in format
     for x in range(board_size):
-        print(" . |", end='') 
-        # if is_hit() == True:
-        #     print(" X |", end='')
-        # elif is_hit() == False:
-        #     print(" O |", end='')
+        if x+1 in  guessed_positions:
+            if x+1 == ship_position:
+                print(" X |", end='')
+            else:
+                print(" 0 |", end='')
+
+        else:
+            print(" . |", end='') 
+        
     print()
     for i in range(board_size):
         print(f" {i+1} |", end="")
 
 
-
-
     pass
-
 
 
 def get_board_size() -> int:
@@ -59,7 +60,7 @@ def is_hit(guess: int, ship_position: int) -> bool:
 
 def initialize_ship_position(board_size: int) -> int:
     # Get a random start point on the board. randint(start,end)
-    numran = random.randint(0,board_size) # This will work, just not right now. THeres another issue at hand.
+    numran = random.randint(1,board_size) # This will work, just not right now. THeres another issue at hand.
     return numran
     # pass
 
@@ -76,7 +77,6 @@ def take_turn(board_size: int, guessed_positions: list[int],
     guess = get_guess()
     # Update guessed positions.
     guessed_positions.append(guess)
-    print(ship_position)
     # Display the board.
     display_board(board_size, guessed_positions, ship_position)
     # Determine if hit.
@@ -97,7 +97,6 @@ def main():
     ship_position: int = initialize_ship_position(board_size) # ship location
     guessed_positions: list[int] = [] # guessed positions
     display_board(board_size, guessed_positions, ship_position)
-    print('\n',ship_position) # Just for debugging purposes, this will need to be removed before finally submitting!!!!!!!
     # TODO: Take turns until the battleship is sunk
     while take_turn(board_size, guessed_positions, ship_position) == False:
         take_turn(board_size, guessed_positions, ship_position)
