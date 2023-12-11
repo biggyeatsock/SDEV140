@@ -23,6 +23,7 @@ def parsed_file(FILE_PATH):
             # remove '~' character between the data
             items = line.replace('~', ',')
             items = items.strip()
+            items = items.split(',')
             parsed_vals.append(items)
         return parsed_vals
 
@@ -38,12 +39,14 @@ def cleaned_data(data):
             raise ValueError(f'Error on line {LineNumber}: ID must be 5 characters long.')
             
         # Date Visited
-        DateVisited = DataRow[1]
+        DateVisited = DataRow[1] # This works, but only grabs one date.
         if DateVisited != '':
             try:
-                datetime.strptime(DateVisited, '%Y-%m-%d')
-            except ValueError:
-                raise ValueError(f'Error on line {LineNumber}: Date is empty')
+                datetime.strptime(DateVisited, "%Y/%m/%d")
+            except ValueError as e:
+                print("Invalid date:", DateVisited)
+        
+
 
 
 
@@ -63,9 +66,9 @@ def main():
         print('File is empty.')
         exit()
     
-    # FormattedData = cleaned_data(data)
+    FormattedData = cleaned_data(data)
     
-    # print('This is the formatted data.',FormattedData)
+    print('This is the formatted data.',FormattedData)
 
 
 main()
