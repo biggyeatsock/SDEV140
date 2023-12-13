@@ -10,65 +10,94 @@ FILE_PATH = 'SDEV140\data.dat'
 from datetime import datetime
 
 def GetUserInput():
-
-    usinput = input("Enter an account number, or 'q' to quit:")
+    usinput = input("\nEnter an account number, or 'q' to quit: ")
     if usinput == 'q':
         exit()
     return usinput
 
-def parsed_file(FILE_PATH):
-    parsed_vals = []
-    with open(FILE_PATH, 'r') as file:  # Open the file in read mode        
+
+def parsed_file(FILE_PATH): # All good!
+    data = {}
+    invalid_dates_data = {}
+    with open(FILE_PATH, 'r') as file:
         for line in file:
-            # remove '~' character between the data
-            items = line.replace('~', ',')
-            items = items.strip()
-            items = items.split(',')
-            parsed_vals.append(items)
-        return parsed_vals
+            elements = line.strip().split('~')
+            account_number = elements[0]
+            dates = elements[1:]
+            if len(account_number) != 5:
+                print(f"\nAccount Number {account_number} is not 5 characters long. \nSkipping.")
+                continue
 
-def cleaned_data(data):
-    FormattedData = []
-    AccountID = ' '
-    DateVisited = ' '
-    LineNumber = 1
-    for DataRow in data:
-        # Acount ID
-        AccountID = DataRow[0]
-        if len(AccountID) == 0:
-            raise ValueError(f'Error on line {LineNumber}: ID must be 5 characters long.')
+            validated_dates = []
+            invalid_dates = []
+            for date_str in dates:
+                if date_str.strip():  # Check if date_str is not empty
+                    try:
+                        date_obj = datetime.strptime(date_str.strip(), '%Y/%m/%d')
+                        validated_dates.append(date_obj.strftime('%Y/%m/%d'))
+                    except ValueError:
+                        invalid_date = date_str.strip()
+                        if account_number in invalid_dates_data:
+                            invalid_dates_data[account_number].append(invalid_date)
+                        else:
+                            invalid_dates_data[account_number] = [invalid_date]
+                        print(f"Invalid date '{invalid_date}' for Account Number {account_number}. \nSkipping.")
             
-        # Date Visited
-        DateVisited = DataRow[1] # This works, but only grabs one date.
-        if DateVisited != '':
-            try:
-                datetime.strptime(DateVisited, "%Y/%m/%d")
-            except ValueError as e:
-                print("Invalid date:", DateVisited)
-        
+
+            if validated_dates:
+                if account_number in data:
+                    data[account_number].extend(validated_dates)
+                else:
+                    data[account_number] = validated_dates
+
+    return data, invalid_dates_data
 
 
+# def search(data, invalid_dates_data, usinput):
+#     if usinput in data:
+#         print(f'Account Number: {usinput}')
+#         print("Dates:")
+#         for date in data[usinput]:
+#             print(date)
+#         if usinput in invalid_dates_data:
+#             print("Invalid Dates:")
+#             for date in invalid_dates_data[usinput]:
+#                 print(date)
+#     else:
+#         print(f"Account Number {usinput} not found.")
 
+def search(data, invalid_dates_data, usinput):
+    if usinput in data:
+        print(f'Account ID: {usinput}', end=' ')
+        dates = data[usinput]
+        if dates:
+            print(f"{dates[0].replace('/', '')};{dates[-1].replace('/', '')}")
+        else:
+            print()
+    elif usinput in invalid_dates_data:
+        print(f"Account ID: {usinput}")
+        invalid_dates = invalid_dates_data[usinput]
+        if invalid_dates:
+            for date in invalid_dates:
+                print(f"Invalid date: {date}")
+    else:
+        print(f"Account Number {usinput} not found.")
 
-        FormattedData.append([AccountID, DateVisited])
-        LineNumber += 1
-    return FormattedData
 
 def main():
-    usinput = GetUserInput()
-    try: # parsing data
-        data = parsed_file(FILE_PATH)
+    try:
+        data, invalid_dates_data = parsed_file(FILE_PATH)
     except FileNotFoundError as e:
         print(f'File not found ' + e)
         exit()
-    print(data, '\n This is all data: \n')
-    if len(data) == 0: # if file is empty this will exit.
+
+    if len(data) == 0:
         print('File is empty.')
         exit()
-    
-    FormattedData = cleaned_data(data)
-    
-    print('This is the formatted data.',FormattedData)
 
+    usinput = GetUserInput()
+    while usinput != 'q':
+        search(data, invalid_dates_data, usinput)
+        usinput = GetUserInput()
 
 main()
