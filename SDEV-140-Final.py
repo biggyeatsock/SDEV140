@@ -53,20 +53,7 @@ def parsed_file(FILE_PATH): # All good!
     return data, invalid_dates_data
 
 
-# def search(data, invalid_dates_data, usinput):
-#     if usinput in data:
-#         print(f'Account Number: {usinput}')
-#         print("Dates:")
-#         for date in data[usinput]:
-#             print(date)
-#         if usinput in invalid_dates_data:
-#             print("Invalid Dates:")
-#             for date in invalid_dates_data[usinput]:
-#                 print(date)
-#     else:
-#         print(f"Account Number {usinput} not found.")
-
-def search(data, invalid_dates_data, usinput):
+def search(data, invalid_dates_data, usinput): # All good!
     if usinput in data:
         print(f'Account ID: {usinput}', end=' ')
         dates = data[usinput]
